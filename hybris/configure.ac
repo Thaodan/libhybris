@@ -35,6 +35,7 @@ AC_SUBST([LT_AGE])
 
 AC_CHECK_LIB(dl, dlopen, dummy=yes, AC_MSG_ERROR(dynamic linking loader is required))
 AC_CHECK_LIB(rt, clock_gettime, dummy=yes, AC_MSG_ERROR(librt is required))
+AX_CHECK_COMPILE_FLAG([-std=c++14], [CXXFLAGS="$CXXFLAGS -std=c++14"])
 
 AC_ARG_ENABLE(debug,
   [  --enable-debug            Enable debug build (default=disabled)],
@@ -233,6 +234,7 @@ AC_SUBST(ANDROID_VERSION_PATCH, [$android_headers_patch])
 AC_MSG_NOTICE("Android headers version is $android_headers_major.$android_headers_minor.$android_headers_patch")
 
 # Add automake tests for version/API needs here that you need in code, including test .am's
+AM_CONDITIONAL([HAS_ANDROID_10_0_0],[test $android_headers_major -ge 10 -a $android_headers_minor -ge 0 ])
 AM_CONDITIONAL([HAS_ANDROID_9_0_0], [test $android_headers_major -ge 9 -a $android_headers_minor -ge 0 ])
 AM_CONDITIONAL([HAS_ANDROID_8_0_0], [test $android_headers_major -ge 8 -a $android_headers_minor -ge 0 ])
 AM_CONDITIONAL([HAS_ANDROID_7_0_0], [test $android_headers_major -ge 7 -a $android_headers_minor -ge 0 ])
@@ -268,6 +270,7 @@ AC_CONFIG_FILES([
 	common/mm/Makefile
 	common/n/Makefile
 	common/o/Makefile
+  common/q/Makefile
 	egl/egl.pc
 	egl/Makefile
 	egl/platforms/Makefile
